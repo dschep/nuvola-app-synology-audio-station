@@ -1,0 +1,11 @@
+{
+    "id": "synology_audio_station",
+    "name": "Synology Audio Station",
+    "maintainer_name": "Daniel Schep",
+    "maintainer_link": "https://github.com/dschep",
+    "version_major": 1,
+    "version_minor": 0,
+    "api_major": 3,
+    "api_minor": 0,
+    "categories": "AudioVideo;Audio;"
+}
