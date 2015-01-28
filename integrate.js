@@ -31,6 +31,7 @@ var USE_QUICKCONNECT = 'app.use_quickconnect';
 var QUICKCONNECT_ID = 'app.quickconnect_id';
 var HOST = 'app.host';
 var PORT = 'app.port';
+var USE_SSL = 'app.use_ssl';
 
 // Create media player component
 var player = Nuvola.$object(Nuvola.MediaPlayer);
@@ -51,6 +52,7 @@ WebApp._onInitAppRunner = function(emitter)
     Nuvola.config.setDefault(QUICKCONNECT_ID, "");
     Nuvola.config.setDefault(HOST, "");
     Nuvola.config.setDefault(PORT, "");
+    Nuvola.config.setDefault(USE_SSL, "");
 
     Nuvola.core.connect("InitializationForm", this);
     Nuvola.core.connect("PreferencesForm", this);
@@ -75,6 +77,7 @@ WebApp.appendPreferences = function(values, entries)
     values[QUICKCONNECT_ID] = Nuvola.config.get(QUICKCONNECT_ID);
     values[HOST] = Nuvola.config.get(HOST);
     values[PORT] = Nuvola.config.get(PORT);
+    values[USE_SSL] = Nuvola.config.get(USE_SSL);
     entries.push(['header', 'Synology Audio Station']);
     entries.push(['label', 'Address of your Synology NAS']);
     entries.push(['option', USE_QUICKCONNECT, 'true',
@@ -84,14 +87,16 @@ WebApp.appendPreferences = function(values, entries)
         'use custom address', [HOST, PORT], [QUICKCONNECT_ID]]);
     entries.push(['string', HOST, 'Host']);
     entries.push(['string', PORT, 'Port']);
+    entries.push(['bool', USE_SSL, 'Use HTTPS']);
 }
 
 // home url handler
 WebApp._onHomePageRequest = function(emitter, result)
 {
-    result.url = (Nuvola.config.get(USE_QUICKCONNECT) === 'true')
-    ? Nuvola.format("http://{1}.quickconnect.to:5001", Nuvola.config.get(QUICKCONNECT_ID))
-    : Nuvola.format("http://{1}:{2}", Nuvola.config.get(HOST), Nuvola.config.get(PORT))
+    result.url = Nuvola.config.get(USE_SSL) ? 'https://' : 'http://';
+    result.url += (Nuvola.config.get(USE_QUICKCONNECT) === 'true')
+    ? Nuvola.format("{1}.quickconnect.to:5001", Nuvola.config.get(QUICKCONNECT_ID))
+    : Nuvola.format("{1}:{2}", Nuvola.config.get(HOST), Nuvola.config.get(PORT))
     result.url += '/webman/index.cgi?launchApp=SYNO.SDS.AudioStation.Application';
 }
 
