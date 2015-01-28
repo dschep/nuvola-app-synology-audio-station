@@ -47,7 +47,7 @@ WebApp._onInitAppRunner = function(emitter)
 {
     Nuvola.WebApp._onInitAppRunner.call(this, emitter);
 
-    Nuvola.config.setDefault(USE_QUICKCONNECT, 'true');
+    Nuvola.config.setDefault(USE_QUICKCONNECT, "");
     Nuvola.config.setDefault(QUICKCONNECT_ID, "");
     Nuvola.config.setDefault(HOST, "");
     Nuvola.config.setDefault(PORT, "");
@@ -71,6 +71,8 @@ WebApp._onInitializationForm = function(emitter, values, entries)
 // add prefs
 WebApp.appendPreferences = function(values, entries)
 {
+    values[USE_QUICKCONNECT] = Nuvola.config.get(USE_QUICKCONNECT);
+    values[QUICKCONNECT_ID] = Nuvola.config.get(QUICKCONNECT_ID);
     values[HOST] = Nuvola.config.get(HOST);
     values[PORT] = Nuvola.config.get(PORT);
     entries.push(['header', 'Synology Audio Station']);
